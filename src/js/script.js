@@ -62,31 +62,34 @@ function initActions() {
   }
   
   const filters = [];
-  const typeOfFilters = document.querySelectorAll('input[type="checkbox"]');
- 
-  for (let typeOf of typeOfFilters) {
-    typeOf.addEventListener('change', function(event) {
-      event.preventDefault();
-      // const filters = [];
-      if (typeOf.tagName === 'INPUT' && typeOf.name === 'filter' && typeOf.type === 'checkbox') {
-        console.log(typeOf.value);
-        if (typeOf.checked) {
-          filters.push(typeOf.value);
-        } else {
-          const filterIndex = filters.indexOf(typeOf.value);
-          filters.splice(filters.indexOf(filterIndex), 1);
-        }
+  const typeOfFilters = document.querySelector('.filters');
+  
+  
+  typeOfFilters.addEventListener('change', function(event) {
+    event.preventDefault();
+
+    const checked = event.target;
+      
+    if (checked.tagName === 'INPUT' && checked.name === 'filter' && checked.type === 'checkbox') {
+      console.log(checked.value);
+      if (checked.checked) {
+        filters.push(checked.value);
+      } else {
+        const filterIndex = filters.indexOf(checked.value);
+        filters.splice(filters.indexOf(filterIndex), 1);
       }
-    });
-    filterBooks();
-  }
+    }
+  });
+  filterBooks();
+
 }
 initActions();
 
 function filterBooks() {
+  
   for (let book in dataSource.books) {
     let shouldBeHidden = false;
-    for (filter of filters) {
+    for (let filter of filters) {
       if(!book.details[filter]) {
         shouldBeHidden = true;
         break;
