@@ -78,9 +78,11 @@ function initActions() {
         const filterIndex = filters.indexOf(checked.value);
         filters.splice(filters.indexOf(filterIndex), 1);
       }
+      
     }
+    filterBooks();
   });
-  filterBooks();
+  
 
 }
 initActions();
@@ -103,6 +105,7 @@ function filterBooks() {
     }
   }
 }
+
 
 
 
