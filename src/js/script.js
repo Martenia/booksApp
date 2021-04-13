@@ -36,19 +36,28 @@ function initActions() {
     cover.addEventListener('dblclick', function(event) {
       // ...zatrzyma domyślne zachowanie przeglądarki (preventDefault),
       event.preventDefault();
-      // doda do klikniętego elementu klasę favorite,
-      cover.classList.add('favorite');
       // pobierze z jego data-id identyfikator książki,
       const bookId = cover.getAttribute('data-id');
-      // i doda ten identyfikator do favoriteBooks
-      favoriteBooks.push(bookId);
+      // console.log(bookId);
+
+      if (!cover.classList.contains('favorite')) {
+        // doda do klikniętego elementu klasę favorite
+        cover.classList.add('favorite');
+        // i doda ten identyfikator do favoriteBooks
+        favoriteBooks.push(bookId);
+      } else {
+        // usunie z klikniętego elementu klasę favorite
+        cover.classList.remove('favorite');
+        // i usunie ostatni identyfikator z favoriteBooks
+        favoriteBooks.splice(favoriteBooks.indexOf(bookId), 1);
+      }
     });
-   
-    
   }
 }
 initActions();
 
 console.log(favoriteBooks);
+
+
 
 
