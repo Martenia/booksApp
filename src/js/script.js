@@ -12,21 +12,28 @@ function render() {
     
     const book = dataSource.books[items];
     console.log(book);
-
-    const generatedHTML = templates.booksTemplate(book);
-    // console.log(generatedHTML);
     
-    booksContainer.appendChild(utils.createDOMFromHTML(generatedHTML));
+    const ratingBgc = determineRatingBgc(book.rating);
+    const ratingWidth = book.rating * 10;
 
+    const generatedHTML = templates.booksTemplate({
+      id: book.id,
+      price: book.price,
+      name: book.name,
+      image: book.image,
+      rating: book.rating,
+      ratingBgc,
+      ratingWidth
+    });
+
+    console.log(generatedHTML);
+    booksContainer.appendChild(utils.createDOMFromHTML(generatedHTML));
   }
 }
 render();
 
 // Zacznij od dodania nowej pustej tablicy favoriteBooks.
 const favoriteBooks = [];
-
-
-
 
 const filters = [];
 // Dodaj funkcję initActions.
@@ -61,10 +68,8 @@ function initActions() {
     });
   }
   
-  const filters = [];
   const typeOfFilters = document.querySelector('.filters');
-  
-  
+    
   typeOfFilters.addEventListener('change', function(event) {
     event.preventDefault();
 
@@ -82,14 +87,12 @@ function initActions() {
     }
     filterBooks();
   });
-  
-
 }
 initActions();
 
 function filterBooks() {
   
-  for (let book in dataSource.books) {
+  for (let book of dataSource.books) {
     let shouldBeHidden = false;
     for (let filter of filters) {
       if(!book.details[filter]) {
@@ -106,7 +109,21 @@ function filterBooks() {
   }
 }
 
+function determineRatingBgc(rating) {
+  let background = ' ';
+  
+  if (rating < 6) {
+    background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);';
+  }
+  else if (rating > 6 && rating <= 8) {
+    background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%);';
+  }
+  else if (rating > 8 && rating <= 9) {
+    background = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%);';
+  }
+  else if (rating > 9) {
+    background = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%);';
+  }
 
-
-
-
+  return background;
+}
